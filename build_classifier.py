@@ -40,6 +40,7 @@ def get_all_images(foldername):
 def build_classifier(train_data_x_in, train_data_y, classifier_in='svc_basic'):
     print "Attempting to build classifier."
     train_data_x = train_data_x_in
+    transformer = ''
     # classifier = grid_search.GridSearchCV(svm.SVC(), parameters).fit(train_data_x, train_data_y)
     if classifier_in == 'svc_basic':
         classifier = svm.SVC()
@@ -48,25 +49,25 @@ def build_classifier(train_data_x_in, train_data_y, classifier_in='svc_basic'):
         classifier = svm.SVC(kernel="linear", C=0.025, gamma=0.01)
         print "Selection was extensive svm.SVC, with linear kernel, C==0.025 and gamma==0.01."
     elif classifier_in == 'kneighbors_basic':
-        pca = RandomizedPCA(n_components=20)
-        train_data_x = pca.fit_transform(train_data_x)
+        transformer = RandomizedPCA(n_components=2000)
+        train_data_x = transformer.fit_transform(train_data_x)
         classifier = KNeighborsClassifier()
-        print "Selection was KNeighbors basic, using RandomizedPCA to transform data first. n_components==20."
+        print "Selection was KNeighbors basic, using RandomizedPCA to transform data first. n_components==2000."
     elif classifier_in == 'bagging_basic':
         classifier = BaggingClassifier(KNeighborsClassifier(), max_samples=0.5, max_features=0.5)
         print "Selection was Bagging basic, with max_samples==0.5 and max_features==0.5."
     elif classifier_in == 'spectral_basic':
-        spc = SpectralEmbedding(n_components=20)
-        train_data_x = spc.fit_transform(train_data_x)
+        transformer = SpectralEmbedding(n_components=2000)
+        train_data_x = transformer.fit_transform(train_data_x)
         classifier = KNeighborsClassifier()
-        print "Selection was Spectral basic, using svm.SVC with Spectral data fitting. n_components==20."
+        print "Selection was Spectral basic, using svm.SVC with Spectral data fitting. n_components==2000."
     # default to SVC in case of any sort of parsing error.
     else:
         print "Error in selecting classifier class. Reverting to SVC."
         classifier = svm.SVC()
     classifier.fit(train_data_x, train_data_y)
     print "Doing classifier estimation."
-    return classifier, train_data_x
+    return classifier, train_data_x, transformer
 
 def show_usage():
     print 'build_classifier.py -i <input_directory>-c <classifier_class>'
@@ -154,12 +155,15 @@ def main(argv):
 
     # (2) Build our classifier and then return any possibly manipulated data that was required for building that classifier
     print "Training classifier with class " + classifier_class
-    classifier, train_x = build_classifier(train_x, train_y, classifier_class)
+    classifier, train_x, transformer = build_classifier(train_x, train_y, classifier_class)
     print "Classifier established and built."
 
     # joblib dumps to the defined directory not only the pkl file, but also all associated .npy files for the classifier
     print "Dumping classifier to file."
     joblib.dump(classifier, directory_to_read+'/'+classifier_class+'/classifier_out.pkl')
+    if transformer:
+        print "Dumping the transformer to file, too."
+        joblib.dump(transformer, directory_to_read+'/'+classifier_class+'/transformer.pkl')
 
     # (3)
     numpy.set_printoptions(threshold=numpy.nan)

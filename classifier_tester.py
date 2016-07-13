@@ -112,14 +112,15 @@ def main(argv):
     test_data_x = data_x
 
     # Checking to see if we need to do any specific data manipulation for the input test data
+    # This still needs some proper work, isn't matching up properly due to incorrect PCA usage
     if classifier_label == 'kneighbors_basic':
         print "Classifier is of type KNeighbors, so we need to do a quick PCA transform on our data."
-        pca = RandomizedPCA(n_components=20)
-        test_data_x = pca.fit_transform(data_x)
+        pca = joblib.load(directory_to_read+'/'+classifier_label+'/transformer.pkl')
+        test_data_x = pca.transform(data_x)
     elif classifier_label == 'spectral_basic':
         print "Classifier used Spectral imaging, so we need to do a spectral transformation on our data."
-        spc = SpectralEmbedding(n_components=20)
-        test_data_x = spc.fit_transform(data_x)
+        spc = joblib.load(directory_to_read+'/'+classifier_label+'/transformer.pkl')
+        test_data_x = spc.transform(data_x)
 
     numpy.set_printoptions(threshold=numpy.nan)
     "Doing prediction on input data set"
