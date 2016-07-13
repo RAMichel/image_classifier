@@ -49,10 +49,10 @@ Once step (3.) is completed, it will output a single array of boolean values, wh
 
 ###2. Build a classifier of a selectable list and train it on an input of random data.
 
-    ```python build_classifier.py -i <output_directory> -c <classifier_class>```
+    ```python build_classifier.py -i <output_directory> -c <classifier_class>
 
     <classifier_class> can relate to one of the following:
-        ```svc_basic
+        svc_basic
         svc_extensive
         kneighbors_basic
         bagging_basic
