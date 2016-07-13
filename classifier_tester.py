@@ -52,9 +52,10 @@ def main(argv):
     # (0)
     directory_to_read = ''
     classifier_file = ''
+    classifier_dir = ''
     classifier_label = ''
     try:
-        opts, args = getopt.getopt(argv,"hi:c:l:",["idir=","classifer=","class_label="])
+        opts, args = getopt.getopt(argv,"hi:c:l:d:",["idir=","classifer=","class_label=","classifier_dir="])
     except getopt.GetoptError:
         show_usage()
 
@@ -74,6 +75,10 @@ def main(argv):
             classifier_label = arg
             if not classifier_label:
                 print 'Please supply the type of classifier that you wish to test.'
+        elif opt in ("-d", "--classifier_dir"):
+            classifier_dir = arg
+            if not classifier_dir:
+                print 'Please supply the directory containing the classifier and all its relevant files.'
 
     #(0b)
     try:
@@ -115,11 +120,11 @@ def main(argv):
     # This still needs some proper work, isn't matching up properly due to incorrect PCA usage
     if classifier_label == 'kneighbors_basic':
         print "Classifier is of type KNeighbors, so we need to do a quick PCA transform on our data."
-        pca = joblib.load(directory_to_read+'/'+classifier_label+'/transformer.pkl')
+        pca = joblib.load(classifier_dir+'/transformer.pkl')
         test_data_x = pca.transform(data_x)
     elif classifier_label == 'spectral_basic':
         print "Classifier used Spectral imaging, so we need to do a spectral transformation on our data."
-        spc = joblib.load(directory_to_read+'/'+classifier_label+'/transformer.pkl')
+        spc = joblib.load(classifier_dir+'/transformer.pkl')
         test_data_x = spc.transform(data_x)
 
     numpy.set_printoptions(threshold=numpy.nan)
