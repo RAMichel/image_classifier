@@ -49,7 +49,7 @@ Once step (3.) is completed, it will output a single array of boolean values, wh
 
 ###2. Build a classifier of a selectable list and train it on an input of random data.
 
-    ```python build_classifier.py -i <output_directory> -c <classifier_class>
+    python build_classifier.py -i <output_directory> -c <classifier_class>
 
     <classifier_class> can relate to one of the following:
         svc_basic
@@ -57,10 +57,10 @@ Once step (3.) is completed, it will output a single array of boolean values, wh
         kneighbors_basic
         bagging_basic
         spectral_basic
-        ```
+        
 ###3. Use a specified Python-pickled classifier on an input data to do predictions.
 
-    ```python classifier_tester.py -i <output_directory> -c <path_to_classifier_out.pkl> -l <classifier_class>```
+    python classifier_tester.py -i <output_directory> -c <path_to_classifier_out.pkl> -l <classifier_class>
     
     <classifier_class> is the same as used in (2.), and helps in accurate data transformations to do predictions.
 
