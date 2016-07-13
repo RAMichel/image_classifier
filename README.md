@@ -60,7 +60,7 @@ Once step (3.) is completed, it will output a single array of boolean values, wh
         
 ###3. Use a specified Python-pickled classifier on an input data to do predictions.
 
-    ```python classifier_tester.py -i <output_directory> -c <path_to_classifier_out.pkl> -l <classifier_class>```
+    python classifier_tester.py -i <output_directory> -c <path_to_classifier_out.pkl> -l <classifier_class>
     
     <classifier_class> is the same as used in (2.), and helps in accurate data transformations to do predictions.
 
