@@ -60,8 +60,10 @@ Once step (3.) is completed, it will output a single array of boolean values, wh
         
 ###3. Use a specified Python-pickled classifier on an input data to do predictions.
 
-    python classifier_tester.py -i <output_directory> -c <path_to_classifier_out.pkl> -l <classifier_class>
+    python classifier_tester.py -i <any_output_directory> -d <directory_containing_classifier> -c <path_to_classifier_out.pkl> -l <classifier_class>
     
     <classifier_class> is the same as used in (2.), and helps in accurate data transformations to do predictions.
+    <any_output_directory> is any *_out directory after running build_numpy_arrays.py.
+    <directory_containing_classifier> is the direct directory above the classifier_out.pkl file, and is used for extra required transformations with specific classifiers.
 
 
