@@ -3,16 +3,8 @@ __author__ = 'raymichel'
 import os, os.path
 from os.path import isfile, join
 from PIL import Image
-import re
 import sys, getopt
 import numpy
-
-import sklearn
-from sklearn import svm
-from sklearn import cross_validation
-from sklearn import metrics
-from sklearn import grid_search
-from sklearn.externals import joblib
 
 STANDARDIZED_SIZE = (426,240)
 
@@ -31,7 +23,7 @@ def get_all_images(foldername):
     except:
         all_images = []
         e = sys.exc_info()[0]
-        print 'failure in retrieving images, error:'
+        print 'failure in retrieving images, error: ' + str(e)
 
     return files
 
@@ -73,7 +65,9 @@ def show_usage():
     print "python build_numpy_arrays.py -i <top_input_dir_with_chosen_and_unchosen> -o <top_output_directory>"
 
 def main(argv):
-
+    """
+    Does a very simple parsing of arguments, and then building the relevant pixel numpy arrays.
+    """
     directory_to_read = ''
     directory_to_write = ''
     try:
